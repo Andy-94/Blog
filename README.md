@@ -194,3 +194,47 @@ Post 精简配置：
 	$.post(‘http://localhost:3000/demo’’,{name:’’,age:’’},(data)=>{console.log()})
 
 ###回调地狱
+##跨域问题
+为安全采用的同源策略（<iframe>访问其他网站，可能是钓鱼网站）
+非同源：
+	Cookie 不能读取
+	DOM无法获取
+	Ajax	请求不能获取data
+##JSONP解决发送请求跨域问题（只有get请求）
+前端code：
+	
+		<body>
+		  <button id="btn">按钮</button>
+		  <script type="text/javascript">
+		    var btn = document.getElementById('btn');
+		    btn.onclick = function () {
+		      //1. 创建一个script标签
+		      var script = document.createElement('script');
+		      //2. 设置回调函数
+		      window.getData = function (data) {
+		        console.log(data);//拿到数据
+		      }
+		      //3. 设置script标签src属性，填写跨域请求的地址
+		      script.src = 'http://localhost:3000/jsonp?callback=getData';
+		      //4. 将script标签添加到body中生效
+		      document.body.appendChild(script);
+		      //5.不影响整体DOM结构，删除script标签
+		      document.body.removeChild(script);
+		    }
+		  </script>
+		</body>
+后端code：
+
+	app.get('/jsonp', (req, res) => {
+	  //解构赋值获取请求参数
+	  const {callback} = req.query
+	  //去数据库查找对应数据
+	  const data = [{name: 'tom', age: 18}, {name: 'jerry', age: 20}];
+	  res.send(callback + '(' + JSON.stringify(data) + ')');
+	})
+
+### Cros解决跨域问题：
+前端直接配置xhr接口，然后只需要在后台配置：
+	
+	res.set(‘Access-Control-Allow-Origin’,’http://localhost:3001’);
+但是需要后端配合 ‘Access-Control-Allow-Origin’ 背熟！！！
