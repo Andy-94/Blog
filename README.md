@@ -153,3 +153,12 @@ API:
 	sessionStorage.removeItem('key');
 	// 删除所有保存的数据
 	sessionStorage.clear();
+#缓存
+### 强缓存的header参数
+expires：时间有效期
+cache-control 最长的有效期
+ <font color=red>注意：当cache-control与Expires共存的时候cache-control的优先级高</font>
+### 协商缓存的header参数
+  <font color=red> 重点：协商缓存是由服务器来确定缓存资源是否可用的，所以客户端与服务器端要通过某种标识来进行通信，从而让服务器判断请求资源是否可以缓存访问</font>
+
+#AJAX
