@@ -1,4 +1,4 @@
-# Blog
+# MY Blog(notice)
 ### 1.css阻塞和js阻塞的规律？
   	The HTML page is running from up to down. 
 	HTML --> DOM tree
@@ -40,6 +40,31 @@ js blocking:
 	浏览器会根据元素的新属性重新绘制，使元素呈现新的外观。
 	重排：
 	浏览器计算每个图层中节点的位置和大小信息的过程称为布局或重排
+##### 优化
+	1.【元素位置移动变换时尽量使用CSS3的transform来代替对top left等的操作】
+		因为transform会避开重绘环节，部分浏览器甚至会避免重排环节。
+
+	2.【隐藏元素时，不要直接使用opacity】
+	    (1).使用visibility隐藏只触发重绘。
+	    (2).直接使用opacity即触发重绘，又触发重排（GPU底层设计如此！）。
+	    (3).若必须使用opacity，那么应该结合图层一起使用，因为这样只触发重绘。
+
+	3.【将DOM离线后再修改】
+		由于display属性为none的元素不在渲染树中，对隐藏的元素操作不会引发其他元素的重排。
+		如果要对一个元素进行复杂的操作时，可以先隐藏它，操作完成后再显示。这样只在隐藏和显示时触发2次重排。
+
+	4.【利用文档碎片】(documentFragment)------vue使用了该种方式提升性能。
+
+	5.【不要把获取某些DOM节点的属性值放在一个循环里当成循环的变量】
+		当你请求向浏览器请求一些 style信息的时候，就会让浏览器flush队列，比如：
+			1. offsetTop, offsetLeft, offsetWidth, offsetHeight
+			2. scrollTop/Left/Width/Height
+			3. clientTop/Left/Width/Height
+			4. width,height
+
+	6.动画实现过程中，启用GPU硬件加速:transform: tranlateZ(0)
+
+   	 7.用js实现动画时，尽量使用requestAnimationFrame请求动画帧
 ### 4.Node使用express搭建服务器？
 	* 创建一个文件夹，cd 到当前文件夹 ，运行 npm init 创建package.json
 	使用vscode打开当前文件，开启vscode 终端 cd 到当前文件夹下 touch server.js (创建入口文件)
