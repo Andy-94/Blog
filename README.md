@@ -162,3 +162,35 @@ cache-control 最长的有效期
   <font color=red> 重点：协商缓存是由服务器来确定缓存资源是否可用的，所以客户端与服务器端要通过某种标识来进行通信，从而让服务器判断请求资源是否可以缓存访问</font>
 
 #AJAX
+数据传输，分页传输等。。
+核心: xhr = XMLHttpRequest
+
+	1. 创建对象： let xhr = new XMLHttpRequest();
+	2. 设置请求信息: xhr.open(method,  url); 
+	3. 发送请求: xhr.send(body) //get 请求不传body参数，但是post使用
+	4. 接受响应: xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+		var text = xhr.responseText;
+		console.log(text);
+	}}
+Xhr中的abort方法(中断的方法) xhr.abort() 中断服务器请求
+
+jQuery-ajax
+Get普通配置：
+
+	$.ajax({
+		url:’http://localhost:3000/demo’, //发送请求的地址
+		method:’GET’,  //发送请求的方式
+		data:{name:’’,age:’’},  //携带的参数
+		success:()=>{},  //成功的回调
+		error:()=>{},   //失败的回调
+	})
+get 精简配置：
+
+	$.get(‘http://localhost:3000/demo’’,{name:’’,age:’’},(data)=>{console.log()})
+
+Post 精简配置：
+
+	$.post(‘http://localhost:3000/demo’’,{name:’’,age:’’},(data)=>{console.log()})
+
+###回调地狱
