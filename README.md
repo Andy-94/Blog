@@ -90,3 +90,66 @@ js blocking:
 	这样的话 可以使用 npm run start 和 npm run server 启动服务
 ### 5.ES6的新语法：结构赋值、箭头函数。
 	
+### 笔记内容
+用js做动画时，
+使用window.requestAnimationFrame()   是H5新加入的API,能保持在任何的显示器下保持流畅,cancelAnimationFrame()取消动画
+
+	Let test = document.getElementById(‘’)	
+	Let index = 0	
+	Function move(){ 	index++
+		test.style.transform = `translateX(${index}px)`
+		requestAnimationFrame(move)
+	}	
+	tage = requestAnimationFrame(move)	
+	setTImeout(()=>{
+	cancelAnimationFrame(tage)
+	},2000)
+
+函数防抖（debounce）
+当搜索框搜索时，让文字保持一定时间直接搜索。
+
+	Let test = document.getElementById(‘’)	
+	Let timeID 
+	inputNode.onkeyup = ()=>{
+	If (timeID) clearTImeout(timeID)
+	timeID = setTimeout(()=>{ let keyWord = inputNOde.value
+	sendRequest(keyWord)
+	},200)
+
+函数节流（throttle）
+设定一个特定的定时器去控制
+
+	Let isCanLog = true;
+	Document.onscroll = ()=>{
+	if(isCanLog){
+	Console.log(1);
+	isCanLog =false;
+	setTimeout(()=>{isCanLog = true},1000)
+	}
+	}
+
+LocalStorage
+能一直放在本地的存储—>当浏览器清除所有内容时，删除
+API:
+
+	// 保存数据到 LocalStorage
+	localStorage.setItem(‘key’, ’value’);
+	//获取数据
+	localStorage.getItem(‘key);
+	// 删除保存的数据
+	localStorage.removeItem('key');
+	// 删除所有保存的数据
+	localStorage.clear();
+
+SessionStorage
+不能一直放在本地存储->当关闭页面时，清除所有内容
+API:
+
+	// 保存数据到 sessionStorage
+	sessionStorage.setItem(‘key’, ’value’);
+	//获取数据
+	sessionStorage.getItem(‘key);
+	// 删除保存的数据
+	sessionStorage.removeItem('key');
+	// 删除所有保存的数据
+	sessionStorage.clear();
