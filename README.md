@@ -2,7 +2,7 @@
 
 ### Front-End notice Blog by Andy
 
-####detail
+#### About the Blog contain
 	
 	MVC
 	MVVM
