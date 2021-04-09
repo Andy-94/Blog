@@ -61,7 +61,29 @@
     扩展属性：
     <Person {…person}/>
 
-##### refs
+##### ref
+####老版本API:
+	在不是自己的input中调用，需要用到refs字符串形式
+		<input type=“” ref=“input1”
+		<button onClick ={this.handleClick}
+	然后根据
+		let input1 =. This.refs.input1 获取此节点
+	在自己的input中不需要调用refs
+		<input onClick ={this.inputClick}
+	然后根据event寻找此节点
+		inputClick = (event) =>{alert(event.target.value)}
+####新版本1
+Refs回调函数直接透过箭头函数回调当前节点。
+	<input type=“text” ref={(current)=>{this.input1 = current}}>
+精简:	<input type=“text” ref={(current)=>this.input1 = current}>
+	然后
+	alert(this.input1.value)
+####新版本2
+Refs 容器，创建一个容器，此容器包含整个节点
+	myRef = React.createRef()
+	<input type=“text” ref={this.myRef}>
+	然后
+	alert(this.myRef.current.value)
 
 6.三点运算符
    浅克隆
@@ -103,3 +125,36 @@
           return newObj
       }
       const newObj = deepClone(oldObj));
+12.受控组件
+
+
+	import React,{ Component} from 'react'
+	export default class Control extends Component{
+	  state={username:''}
+	  myRef = React.createRef()
+	  handleOnclick=(event)=>{
+	    let {value} = this.myRef.current
+	    event.preventDefault();
+	    console.log(`this username is ${this.state.username} and the password is ${value}`)
+	  }
+	  handleUsername =(event)=>{
+	    let {value} = event.target
+	    this.setState({username:value})
+	  }
+	  render(){
+	    return(
+	      <form onClick={this.handleOnclick} action="http://www.baidu.com">
+		<input type="username" onChange={this.handleUsername}/>
+		<button>this is button</button>
+		<input type="password" ref={this.myRef}/>
+	      </form>
+	    )
+	  }
+	}
+
+
+
+
+
+
+
