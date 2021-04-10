@@ -151,6 +151,32 @@ Refs 容器，创建一个容器，此容器包含整个节点
 	    )
 	  }
 	}
+13. React的生命周期
+	render 每次都自动调用
+最重要的：
+	componentDidMount. 挂载 （组件一旦挂载完成，componentDIdMount 只会调用一次
+	componentWillUnmount() 卸载的前一刻 将被调用
+流程：
+
+	initial render -> constructor() -> componentWillMount() -> render() -> componentDIdMount -> componentWillUnmount()
+
+	componentWillUpdate() 和componentDidUpdate() 每次render中有改变时更新
+
+	shouldComponentUpdate()是控制this.setState()的开关，只有true和false
+
+初始化： constructor(), componentWillMount(), render(), componentDidMount()
+更新: shouldComponentUpdate(), componentWillUpdate(), render(), componentDidUpdate()
+卸载: componentWillUnmount()
+新引进: getDerivedStateFromProps(props, state) 必须添加return 返回一个props 或者state更新，可以和componentDidUpdate()一起用
+
+14.diff算法
+ 在虚拟dom中，修改时，对比修改前的dom tree。只修改当前改变的部分内容。
+只对一个节点进行重回重排
+
+15.遍历map方法中， key不能用index代替，因为在react的虚拟dom内部中旧的key会对比当前的key。但是对比后会发现相同的会保留数据。
+解决办法用唯一标识作为key，可以直接在state中写入id作为唯一标识 
+
+
 
 
 
