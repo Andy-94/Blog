@@ -98,10 +98,15 @@ Refs 容器，创建一个容器，此容器包含整个节点
   forEach:
 
   Find:
-
+  	
+	const {id} = this.props.match.params
+	const result = this.state.detail.find((details)=>{return detail.id === id})
   Filter:
+  	
+	const {id} = this.props
+	const result = id.filter((detail)=>{return detail.id === id})
 
-8.复习如何判断this的指向
+8.如何判断this的指向
 	jsx中编译后的js为严格模式，所以this is undefined.
 	可以在constructor中遍历引入函数blind（this)
 	箭头函数 ()=>{}
@@ -170,12 +175,27 @@ Refs 容器，创建一个容器，此容器包含整个节点
 新引进: getDerivedStateFromProps(props, state) 必须添加return 返回一个props 或者state更新，可以和componentDidUpdate()一起用
 
 14.diff算法
- 在虚拟dom中，修改时，对比修改前的dom tree。只修改当前改变的部分内容。
-只对一个节点进行重回重排
+在虚拟dom中，修改时，对比修改前的dom tree。只修改当前改变的部分内容。只对一个节点进行重回重排
 
 15.遍历map方法中， key不能用index代替，因为在react的虚拟dom内部中旧的key会对比当前的key。但是对比后会发现相同的会保留数据。
 解决办法用唯一标识作为key，可以直接在state中写入id作为唯一标识 
 
+16.询问是否删除（必须要有window)
+	
+	window.confirm(‘do you need detel’)
+17.技巧
+
+	onClick(()=>{this.detel()}) 带入函数
+18. React ajax. fetch  组件通讯方式
+
+		1. Props通讯， 1.父传子 (实用)  2. 祖先传子。 但是比较麻烦
+		2. 使用消息订阅技术 1.任意组件通讯 subscribe（订阅） 和 publish （发布）
+		    1. 需要使用PubSub.js. npm install pubsub-js
+		    2. 引入 import PubSub from ‘pubsub-js’
+		    3. 先订阅 需要放在componentDidMount里面 PubSub.subscribe('MY TOPIC', （msg.data）=>{});
+		    4. 发布PubSub.publish('MY TOPIC', 'hello world!');
+
+		1. redux
 
 
 
