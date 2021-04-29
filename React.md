@@ -197,6 +197,166 @@ Refs 容器，创建一个容器，此容器包含整个节点
 
 		1. redux
 
+19.路由 route
+	组成: key—虚拟路径。    Value —组件
+	特点: 浏览器地址栏输入网址，浏览器不会发出请求
+	
+	需要下载  yarn add react-router-dom
+	现需要在index.js中添加<BrowserRouter>
+	a标签改为 <Link. … to=“/xxx”/> home</Link > or <NavLink></NavLink> —高亮
+	如果需要调整颜色：需要加入: activeClassName=“xxx”
+	多个pages路由需要Switch
+	检测地址的变化 <Switch><Route path=“/xxx” component={home}/><Switch>
+	自动切换当前路由页面<Redirect to=“”> 
+	需要引入的有 import {NavLink,Route,Switch,Redirect} from ‘react-router-dom
+
+路由默认是模糊匹配 加入exact={true}后会变成精准匹配
+在Link中添加replace 将会取消后退历史
+调用函数 this.props.history.push	() 添加历史记录 (需要用到()=>{this.function()})进行传参
+前进: this.props.history.goForward
+后退: this.props.history.goBack
+
+如果要变成一个路由组件使用 withRouter
+	export default withRouter(Nav)
+
+路由组件会在props中多出
+
+	1.history —location, replace, goBack, goForward
+	2.location —pathname
+	3.match — params
+
+当路由需要传参数时:
+	<Link to={`/home/message/${id}`}>
+	<Route to=‘/home/message/:id”>占位符
+然后 通过: const {id} =. This.props.match.params 确定id
+便利id: const result= this.state.detail.find((details)=>{return detail.id === id})
+
+20.组件
+一般组件—component   程序员标签渲染的组件
+路由组件—pages	   react-router帮渲染的
+(用componentDidUnmount检测路由是否是隐藏或者卸载，其实是卸载)
+BrowserRouter 改成HashRouter 能解决路径样式问题
+%PUBLIC_URL% 能解决路径样式问题
+
+21.刷新时，路由会出现问题（默认选中但是刷新无用）
+
+	引入 withRouter
+	Import {withRouter} from  'react-router-dom'
+	export default withRouter(Nav)
+	调用:
+	    const selectedKeys = this.props.location.pathname.split("/")
+	    const selectedOpenkey = selectedKeys.reverse()[0] //最后一个key
+
+22. ant的坑
+defaultSelectedKeys 只能引入一个，然后选取一个，在登陆时会出现问题，解决方案，使用selectedKeys 能引入多个.
+rowKey 可以改变数据库rowKey = '_id'
+
+pagination 分页器
+
+
+23.状态码
+	200 - 请求成功
+	301 - 资源（网页等）被永久转移到其它URL
+	404 - 请求的资源（网页等）不存在
+	500 - 内部服务器错误
+	1**	信息，服务器收到请求，需要请求者继续执行操作
+	2**	成功，操作被成功接收并处理
+	3**	重定向，需要进一步的操作以完成请求
+	4**	客户端错误，请求包含语法错误或无法完成请求
+	5**	服务器错误，服务器在处理请求的过程中发生了错误
+
+25. token模式
+输入username/password 校验成功 生成token
+请求api时用token，通过过滤器校正token，如果通过返回请求数据
+如果没通过返回错误码401
+
+token会保持在session中
+
+
+25.//路由跳转时，nav会高亮
+    if(selectedKeys.indexOf('product') !== -1) selectedOpenkey ='product'
+
+26.
+Nprogress 进度条库
+	yarn add nprogress
+然后引入自身css
+import 'nprogress/nprogress.css'
+在axios中 
+在request 中加入NProgress.start();
+esponse 中加入NProgress.done();
+
+27
+在react中需要识别标签数据时
+需要用<span dangerouslySetInnerHTML={{__html:detail}}></span>
+
+28 
+当用到Form组件时如果需要用到button提交时需要用到
+<Button htmlType="submit"  type="primary">Submit</Button>
+
+
+29.
+文本编辑器库.  wysiwyg
+
+30.
+实现数据没法第一时间读取到，不能用state方法时，用ref + this.myRefForm.current.setFieldsValue(data)
+getIdData = async(id)=>{
+    let result = await reqCategoryDetail(id)
+    const {status,data,msg} = result
+    if(status ===0){
+      //andt直接引入data的数据，只要原本form的数据和数据库的数据一致
+      this.myRefForm.current.setFieldsValue(data)
+    }else{
+      message.error(msg)
+    }
+
+31.
+有时候从state中获取对象类型数据的时候，最好断开引用
+比如:
+Let {a}= this.state
+改成
+Let a = […this.state.a]
+
+32. 数组中some方法 (返回值为boole)
+34. 
+ //验证用户权限
+  RoleAuth =(menuObj)=>{
+    const {rolePin} = this.props
+    if(this.props.userName ==='admin') return true
+    if(!menuObj.children){
+      return rolePin.find((item)=> item === menuObj.key)
+    }else{
+      return menuObj.children.some((item2)=>rolePin.indexOf(item2.key) !== -1 )
+    }
+  }
+
+34.数据可视化
+ECharts
+安装react版本和echarts
+yarn add echarts-for-react echarts
+
+
+35.pureComponent和component区别
+Component问题：
+1.父组件重新render(),子组件也会重新执行render()，即使没有任何变化
+2.当前组件setState({}) 子组件也会重新执行render()
+解决问题:
+PurceComponent代替Compoent
+PureComponent比Component智能很多
+
+组件哪个生命钩子能实现组件优化?
+shouldCompoentUpdate().
+
+36。新特性
+1. State Hook: React.useState()
+
+2. Effect Hook: React.useEffect()
+是一个三个生命周期组合
+3. Ref Hook: React.useRef()
+用法和React.CreateRef差不多
+
+
+
+
 
 
 
